@@ -31,6 +31,28 @@
     };
 
     /**
+     * Заменяет все вхождения oldChar на newChar находящиеся перед строкой y после позиции x
+     *
+     * @param oldChar
+     * @param newChar
+     * @param {number} y
+     * @param {number} x
+     */
+    ObservedMap.prototype.replaceInLineAbove = function (oldChar, newChar, y, x) {
+        var j, i;
+
+        if (y < 1) {
+            return;
+        }
+
+        j = y - 1;
+
+        for (i = x; i <= this[j].length - 1; i++) {
+            this.get(j, i) === oldChar && (this.set(j, i, newChar));
+        }
+    };
+
+    /**
      * Заменяет все вхождения oldChar на newChar находящиеся перед элементом с координатоми y, x
      *
      * @param oldChar
