@@ -18,15 +18,18 @@
     // );
 
     // Визуализация
-    var delay = 0;
+    var delay = 0,
+        steps = 0;
 
     root.SHRI_ISLANDS.visualizeSolution(map, function (updatedMap, result, y, x) {
         delay += 100;
 
         setTimeout(function () {
             updateOuter(
-                root.SHRI_ISLANDS.render(updatedMap, result, {y: y, x: x})
+                root.SHRI_ISLANDS.render(updatedMap, result, {y: y, x: x}, steps)
             );
+
+            steps += 1;
         }, delay);
     });
 })(this);

@@ -51,10 +51,11 @@
      * @param {Object} [current] координаты активной ячейки
      * @param {number} current.x
      * @param {number} current.y
+     * @param {number} steps количество шагов
      *
      * @returns {HTMLElement} HTML элемент
      */
-    function render(map, count, current) {
+    function render(map, count, current, steps) {
         var containerElem = element('div', 'map'),
             rowElem,
             row,
@@ -64,6 +65,10 @@
             isCurrent;
 
         containerElem.appendChild(element('div', 'map__res', 'Count: ' + Number(count)));
+
+        if (steps) {
+            containerElem.appendChild(element('div', 'map__res', 'Steps: ' + Number(steps)));
+        }
 
         for (y = 0; y < map.length; y++) {
             row = map[y];
