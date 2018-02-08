@@ -23,6 +23,8 @@
             }
         }
 
+        onUpdate(map, result);
+
         return result;
     }
 

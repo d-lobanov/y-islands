@@ -31,14 +31,15 @@
     };
 
     /**
-     * Заменяет все вхождения oldChar на newChar находящиеся перед строкой y после позиции x
+     * Заменяет все вхождения oldChar на newChar находящиеся перед строкой y и после позиции x
+     * Быстрее чем replaceChain, но визуально хуже
      *
      * @param oldChar
      * @param newChar
      * @param {number} y
      * @param {number} x
      */
-    ObservedMap.prototype.replaceInLineAbove = function (oldChar, newChar, y, x) {
+    ObservedMap.prototype.replaceInLineAbove = function (y, x, oldChar, newChar) {
         var j, i;
 
         if (y < 1) {
@@ -54,16 +55,46 @@
 
     /**
      * Заменяет все вхождения oldChar на newChar находящиеся перед элементом с координатоми y, x
+     * Медленее чем replaceInLineAbove, но визуально лучше
      *
+     * @param startY
+     * @param startX
      * @param oldChar
      * @param newChar
-     * @param {number} y
-     * @param {number} x
      */
-    ObservedMap.prototype.replaceAllAbove = function (oldChar, newChar, y, x) {
-        for (var j = 0; j < this.length && j <= y; j++) {
-            for (var i = 0; i < this[j].length; i++) {
-                this.get(j, i) === oldChar && (this.set(j, i, newChar));
+    ObservedMap.prototype.replaceChain = function (startY, startX, oldChar, newChar) {
+        var stack = [{y: startY, x: startX}],
+            rowLength = this[startY].length,
+            x,
+            y,
+            direction,
+            current;
+
+        var ifNotEqualThenPush = (function (y, x, direction) {
+            this.get(y, x) === oldChar && stack.push({y: y, x: x, direction: direction});
+        }).bind(this);
+
+        while (stack.length) {
+            current = stack.pop();
+
+            x = current.x;
+            y = current.y;
+            direction = current.direction;
+
+            this.set(y, x, newChar);
+
+            // смотрим вверх
+            direction !== 'down' && y > 0 && ifNotEqualThenPush(y - 1, x, 'up');
+
+            // смотри влево
+            direction !== 'right' && x > 0 && ifNotEqualThenPush(y, x - 1, 'left');
+
+            if (y !== startY) {
+                // смотри вправо
+                direction !== 'left' && x < rowLength - 1 && ifNotEqualThenPush(y, x + 1, 'right');
+
+                // смотри вниз
+                direction !== 'up' && y < this.length - 1 && ifNotEqualThenPush(y + 1, x, 'down');
             }
         }
     };
