@@ -22,7 +22,7 @@
 
     root.SHRI_ISLANDS.visualizeSolution(map, function (updatedMap, result, y, x) {
         console.log(JSON.stringify(updatedMap), y, x);
-        delay += 200;
+        delay += 150;
 
         setTimeout(function () {
             updateOuter(
