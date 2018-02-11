@@ -34,7 +34,7 @@
         map.set(y, x, left !== WATER ? left : top);
 
         if (left !== top && left !== WATER && top !== WATER) {
-            left < top ? map.replaceChain(y, x, top, left) : map.replaceChain(y, x, left, top);
+            map.replaceInLineAbove(y, x, top, left);
 
             return -1;
         }

@@ -79,7 +79,7 @@
                 cell = row[x];
 
                 rowElem.appendChild(
-                    element('div', cellClass(cell, isCurrent), cell === WATER || cell === ISLAND ? "\u200C" : cell - 1)
+                    element('div', cellClass(cell, isCurrent), cell === WATER || cell === ISLAND ? "\u200C" : "*")
                 );
             }
 
